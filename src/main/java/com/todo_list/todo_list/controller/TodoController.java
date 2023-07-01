@@ -9,10 +9,12 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.todo_list.todo_list.dto.ApiResponse;
+import com.todo_list.todo_list.dto.AtualizarRequest;
 import com.todo_list.todo_list.dto.CadastroRequest;
 import com.todo_list.todo_list.models.Todo;
 import com.todo_list.todo_list.service.TodoService;
@@ -21,9 +23,8 @@ import com.todo_list.todo_list.service.TodoService;
 public class TodoController {
     @Autowired
     private TodoService todoService;
-
-    
-    @GetMapping 
+ 
+    @GetMapping("/todo")
     public ResponseEntity<List<Todo>> getAllListas(){
         List<Todo> listas = todoService.getAllListas();
         return new ResponseEntity<>(listas, HttpStatus.OK);
@@ -40,7 +41,6 @@ public class TodoController {
         }
     }
 
-
     @PostMapping("/todo")
     public ResponseEntity<ApiResponse> cadastrarTodo(@RequestBody CadastroRequest request) throws Exception {
         try {
@@ -50,6 +50,16 @@ public class TodoController {
              return ResponseEntity.internalServerError().body(new ApiResponse(e.getMessage()));
         }
     
+    }
+
+    @PutMapping("/todo")
+    public ResponseEntity<ApiResponse> updateTodoById(@RequestBody AtualizarRequest request){
+        try {
+            todoService.updateTodoById(request);
+            return ResponseEntity.ok().body(new ApiResponse("ToDo atualizada com sucesso!"));
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().body(new ApiResponse(e.getMessage()));
+        }
     }
 
 }
