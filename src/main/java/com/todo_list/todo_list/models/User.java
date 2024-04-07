@@ -1,8 +1,5 @@
 package com.todo_list.todo_list.models;
-
-import java.util.Date;
-
-
+import com.todo_list.todo_list.enums.Perfil;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -13,13 +10,11 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Entity
 @Getter
 @Setter
-@Table(name = "todo")
-public class Todo {
-
+@Table(name = "users")
+public abstract class User {
     @Id
     @GeneratedValue(strategy=GenerationType.UUID)
     private String id;
@@ -27,14 +22,21 @@ public class Todo {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "description", nullable = false)
-    private String description;
+    @Column(name = "email", nullable = false)
+    private String email;
 
-    @Column(name = "startDate", nullable = false)
-    private Date startDate;
+    @Column(name = "password", nullable = false)
+    private String password;
 
-    @Column(name = "endDate", nullable = false)
-    private Date endDate;
+    public abstract Perfil getPerfil();
 
-   
+    public User() {
+    }
+
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
 }

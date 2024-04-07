@@ -21,7 +21,7 @@ public class TodoService {
         return todoRepository.findAll();
     }
 
-    public void deleteTodoById(Long id) throws Exception{
+    public void deleteTodoById(String id) throws Exception{
         try {
             Optional<Todo> todo = todoRepository.findById(id);
             if(!todo.isPresent()){
